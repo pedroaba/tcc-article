@@ -31,10 +31,24 @@ Este repositório está licenciado sob a licença MIT. Consulte o arquivo `LICEN
 
 Recomenda-se usar `latexmk` ou `pdflatex` com `biber` para produzir o PDF final.
 
+Se você não quiser instalar LaTeX na máquina, pode compilar pelo Docker com o script incluído neste repositório:
+
+```bash
+bash build-docker.sh
+```
+
+O script usa uma imagem TeX completa em contêiner e gera o PDF sem depender de `latexmk`, `pdflatex` ou `biber` instalados localmente.
+
 Exemplo com `latexmk`:
 
 ```bash
 latexmk -pdf main.tex
+```
+
+Exemplo via Docker:
+
+```bash
+bash build-docker.sh
 ```
 
 Se for necessário usar `pdflatex` / `biber` manualmente:
