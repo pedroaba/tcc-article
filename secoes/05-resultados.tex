@@ -8,7 +8,7 @@ O teste de latência foi realizado para verificar se a comunicação entre o apl
 
 Na coleta analisada, foram registrados 25 rastreamentos de latência no \textit{backend} e os mesmos 25 rastreamentos no aplicativo \textit{mobile}, sem perda de mensagens entre os dois lados. A Tabela~\ref{tab:latencia-geral} apresenta os resultados gerais da latência ponta a ponta, considerando o caminho do \textit{mobile} ao \textit{backend} e o retorno ao \textit{mobile}, bem como o tempo de processamento interno do \textit{backend}.
 
-\begin{table}[H]
+\begin{table}[!ht]
     \centering
     \caption{Resultados gerais da medição de latência}
     \label{tab:latencia-geral}
@@ -28,7 +28,7 @@ Também foi calculado o percentil 95 das amostras. Para a latência ponta a pont
 
 Ao remover apenas essa primeira amostra, a latência em regime mais estável apresentou uma média de 24,21 ms, mediana de 22 ms, p95 de 32 ms e valor máximo de 47 ms em 24 amostras. Esse resultado indica que, após a estabilização inicial, a comunicação em tempo real manteve tempos baixos e consistentes para a atualização do estado do jogo no aplicativo.
 
-\begin{table}[H]
+\begin{table}[!ht]
     \centering
     \caption{Latência ponta a ponta por sessão}
     \label{tab:latencia-sessao}
@@ -53,7 +53,15 @@ Os resultados indicam que o \textit{backend} teve baixo impacto no tempo total d
 
 \subsection{Teste de usabilidade}
 
-A avaliação de usabilidade teve como objetivo verificar se os principais fluxos da aplicação são compreensíveis para o usuário e se a proposta de gamificação é percebida de forma clara durante a interação. Foram considerados os fluxos de autenticação, seleção de horda, início da corrida, acompanhamento da sessão, visualização do estado do \textit{smartwatch} e encerramento da atividade. Durante a análise, observou-se que a divisão da aplicação em telas específicas contribui para a compreensão do fluxo geral. A tela inicial concentra a seleção da horda, a distância-alvo, o estado de conexão do relógio e o início da sessão. A tela do jogo apresenta o progresso da corrida, o estado remoto da sessão, a pressão exercida pela horda e os dados de telemetria. Já o relógio atua como uma extensão da experiência, exibindo informações resumidas, como batimentos por minuto, progresso, risco e estado de sincronização com o celular.
+A avaliação de usabilidade teve como objetivo verificar se os principais fluxos da aplicação são compreensíveis para o usuário e se a proposta de gamificação é percebida de forma clara durante a interação. Foram considerados os fluxos de autenticação, seleção de horda, início da corrida, acompanhamento da sessão, visualização do estado do \textit{smartwatch} e encerramento da atividade. Durante a análise, observou-se que a divisão da aplicação em telas específicas contribui para a compreensão do fluxo geral. A Figura~\ref{fig:fluxo_telas} ilustra o fluxo de navegação e as etapas principais do aplicativo móvel, abrangendo o acesso, a área principal, a pré-corrida, a corrida e as telas auxiliares. A tela inicial concentra a seleção da horda, a distância-alvo, o estado de conexão do relógio e o início da sessão. A tela do jogo apresenta o progresso da corrida, o estado remoto da sessão, a pressão exercida pela horda e os dados de telemetria. Já o relógio atua como uma extensão da experiência, exibindo informações resumidas, como batimentos por minuto, progresso, risco e estado de sincronização com o celular.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/fluxo_telas.png}
+    \captionsetup{justification=centering}
+    \caption{Fluxo de telas e navegação do aplicativo móvel.}
+    \label{fig:fluxo_telas}
+\end{figure*}
 
 A presença de indicadores visuais de estado, como sessão ativa, relógio conectado ou desconectado e progresso da corrida, auxilia o usuário a compreender se o sistema está pronto para iniciar a atividade. Além disso, a sincronização automática entre celular e relógio reduz a necessidade de ações manuais no \textit{smartwatch}, tornando o fluxo mais simples durante o início e o encerramento da horda.
 
@@ -69,39 +77,42 @@ A análise funcional foi realizada a partir dos fluxos implementados no aplicati
 
 No aplicativo móvel, foram verificados os fluxos de \textit{login}, seleção de horda, início da corrida, coleta de telemetria, envio periódico de dados ao \textit{backend}, recepção do estado remoto e renderização visual da corrida. A cena do jogo não calcula de forma independente o resultado da sessão, ela representa visualmente o estado recebido do \textit{backend}, reduzindo inconsistências entre a lógica da corrida e a interface apresentada ao usuário.
 
-A Figura~\ref{fig-3} apresenta a distância acumulada registrada durante a execução da corrida. Esse dado é essencial para acompanhar o avanço do usuário durante a sessão e também serve como base para a atualização do estado da corrida no sistema.
+\begin{figure*}[!t]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figuras/grafico_distancia_visivel.png}
+        \captionsetup{justification=centering}
+        \caption{Distância acumulada registrada durante a execução da corrida.}
+        \label{fig:grafico_distancia}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figuras/grafico_frequencia_cardiaca_visivel.png}
+        \captionsetup{justification=centering}
+        \caption{Frequência cardíaca coletada pelo \textit{smartwatch} durante a sessão de corrida.}
+        \label{fig:grafico_frequencia}
+    \end{minipage}
+\end{figure*}
+
+A Figura~\ref{fig:grafico_distancia} apresenta a distância acumulada registrada durante a execução da corrida. Esse dado é essencial para acompanhar o avanço do usuário durante a sessão e também serve como base para a atualização do estado da corrida no sistema.
 
 No \textit{smartwatch}, foram avaliados o envio de dados biométricos ao celular, o recebimento do progresso da corrida e a sincronização automática com o início e o encerramento da sessão no aplicativo móvel. Com isso, o usuário não precisa iniciar manualmente a coleta no relógio após começar a horda pelo celular, desde que as permissões necessárias já tenham sido concedidas.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\columnwidth]{figuras/grafico_distancia_visivel.png}
-    \captionsetup{justification=centering}
-    \caption{Distância acumulada registrada durante a execução da corrida.}
-    \label{fig-3}
-\end{figure}
-
 Durante a fase inicial de validação técnica, uma das principais dificuldades esteve relacionada ao aprendizado da comunicação entre \textit{Wear OS} e o aplicativo móvel. Inicialmente, a comunicação entre o relógio e o celular foi realizada apenas por \textit{Wi-Fi}, o que limitou a execução de testes em campo. Para validar a troca inicial de informações, foi desenvolvido um aplicativo de teste cujo objetivo era verificar o estado de conexão, transmitir o número de batimentos por minuto captado pelo relógio por meio dos serviços de saúde do \textit{Wear OS} e enviar dados de localização.
 
-\begin{figure}[H]
+\begin{figure*}[t]
     \centering
-    \includegraphics[width=0.7\columnwidth]{figuras/aplicativo_relogio.png}
+    \includegraphics[width=0.9\textwidth]{figuras/aplicativo_relogio.png}
     \captionsetup{justification=centering}
     \caption{Interface do aplicativo móvel conectado ao relógio via Bluetooth.}
     \label{fig:aplicativo-relogio}
-\end{figure}
+\end{figure*}
 
 Posteriormente, a estratégia de coleta de localização foi modificada. Como o relógio utilizado nos testes foi um \textit{Samsung Galaxy Watch 6} pareado ao celular, era necessário manter o \textit{smartphone} próximo ao \textit{smartwatch} durante a execução da atividade. Dessa forma, optou-se por centralizar a coleta de GPS no aplicativo móvel, solução que apresentou maior viabilidade para os testes em campo e melhor precisão no contexto da arquitetura proposta.
 
-A Figura~\ref{fig-4} apresenta a frequência cardíaca coletada pelo \textit{smartwatch} durante a sessão de corrida. Esse dado representa a principal informação biométrica utilizada no sistema e contribui para o acompanhamento da atividade durante a execução.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\columnwidth]{figuras/grafico_frequencia_cardiaca_visivel.png}
-    \captionsetup{justification=centering}
-    \caption{Frequência cardíaca coletada pelo \textit{smartwatch} durante a sessão de corrida.}
-    \label{fig-4}
-\end{figure}
+A Figura~\ref{fig:grafico_frequencia} apresenta a frequência cardíaca coletada pelo \textit{smartwatch} durante a sessão de corrida. Esse dado representa a principal informação biométrica utilizada no sistema e contribui para o acompanhamento da atividade durante a execução.
 
 Também foram observados desafios na comunicação entre os dispositivos e o \textit{backend}. Em alguns testes, as respostas recebidas do servidor nem sempre refletiam de maneira coerente o estado observado durante a execução. Esse comportamento evidenciou a importância de tratar o \textit{backend} como fonte autoritativa da sessão e de manter o aplicativo móvel responsável pela renderização do estado recebido, reduzindo interpretações locais divergentes dos dados.
 

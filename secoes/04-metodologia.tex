@@ -79,3 +79,7 @@ A avaliação funcional foi definida a partir dos fluxos implementados e dos tes
 \subsubsection{Avaliação de Latência}
 
 A avaliação de latência foi preparada no código por meio dos campos \texttt{latencyTraceId}, \texttt{clientSentAtElapsedMs} e \texttt{backendProcessingMs}. O ponto inicial é o envio da mensagem biométrica pelo aplicativo móvel, o ponto final é o recebimento pelo aplicativo do estado do jogo associado ao mesmo identificador de rastreamento. O \textit{backend} registra o tempo interno de processamento e devolve esse valor na resposta do tópico \texttt{/topic/session/\{sessionId\}/game-state}. As métricas previstas são quantidade de amostras, média, mediana, percentil 95, máximo e tratamento separado de amostras sem correspondência entre envio e resposta.
+
+\subsubsection{Avaliação de Usabilidade}
+
+A avaliação de usabilidade foi planejada para analisar a interação do usuário com os fluxos centrais da aplicação, como autenticação, seleção de hordas, início da corrida, acompanhamento da sessão e sincronização de dados. O procedimento foi estruturado a partir da observação de uso prático dos dispositivos, considerando o impacto das restrições de tela e processamento do \textit{smartwatch}. As métricas qualitativas previstas concentram-se na clareza dos indicadores visuais de estado, na percepção da proposta gamificada e na facilidade de uso do relógio inteligente como dispositivo complementar.
