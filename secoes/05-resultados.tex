@@ -40,14 +40,16 @@ Ao remover apenas essa primeira amostra, a latência em regime mais estável apr
         \texttt{9fd8f4c7...} & 6 & 37,33 ms & 22,5 ms & 110 ms \\
         \texttt{8d63db71...} & 6 & 24,17 ms & 23,5 ms & 30 ms \\
         \texttt{cd9d094c...} & 6 & 25,00 ms & 20,5 ms & 47 ms \\
-        \texttt{1c03cac3...} & 7 & 24,57 ms & 24 ms & 32 ms \\
+        \texttt{1c03cac3...} & 6 & 24,57 ms & 24 ms & 32 ms \\
         \hline
     \end{tabular}
     \end{adjustbox}
 \end{table}
+A quantidade de 6 amostras por sessão na Tabela~\ref{tab:latencia-sessao} representa as requisições de telemetria que foram enviadas nos primeiros 5 segundos de cada sessão de teste, sendo uma requisição por segundo aproximadamente. Esses ensaios preliminares foram conduzidos no início do desenvolvimento para avaliar a viabilidade prática do projeto, analisando a latência ponta a ponta no envio e processamento dos dados. O fluxo percorrido inicia com a frequência cardíaca coletada pelo \textit{smartwatch}, enviada ao celular via \textit{Bluetooth}, transmitida ao \textit{backend} por rede sem fio, processada no servidor e devolvida para exibição no dispositivo final.
 
-Os resultados mostram que o \textit{backend} teve baixo impacto no tempo total de resposta, com processamento médio de 14,44 ms. A maior parte da latência ponta a ponta esteve associada ao ciclo completo de envio da telemetria, processamento no servidor, publicação do novo estado via WebSocket/STOMP e recebimento pelo aplicativo. Mesmo considerando o maior valor observado, a latência permaneceu inferior a 120 ms, o que é adequado para o tipo de interação proposta, pois a aplicação atualiza o estado da corrida em ciclos de aproximadamente um segundo.
-Dessa forma, os resultados indicam que os tempos de resposta observados são compatíveis com a necessidade de manter a sincronização entre o usuário, a horda e o estado visual da corrida no aplicativo móvel.
+Os resultados obtidos apresentaram tempos de latência muito menores do que o esperado. Inicialmente, as medições foram executadas utilizando rede \textit{Wi-Fi} local e com os dispositivos estáticos. Para validar a comunicação em condições reais de mobilidade, foram realizados testes adicionais utilizando rede móvel 5G. A transição para a rede móvel não causou impacto significativo nos tempos medidos, mantendo as médias de resposta estáveis e próximas às obtidas em rede local. Isso confirma que a arquitetura e os protocolos adotados são plenamente viáveis para garantir a comunicação em tempo real desejada.
+
+Os resultados indicam que o \textit{backend} teve baixo impacto no tempo total de resposta, com processamento médio de 14,44 ms. Convém destacar que o servidor foi hospedado remotamente utilizando um \textit{Droplet} da \textit{DigitalOcean}. Mesmo com a comunicação trafegando pela internet pública até a nuvem e retornando ao dispositivo, a maior parte da latência ponta a ponta (média de 27,64 ms) esteve associada ao ciclo completo de envio da telemetria, processamento no servidor, publicação do novo estado via \textit{WebSocket}/\textit{STOMP} e recebimento pelo aplicativo. Mesmo considerando o maior valor observado, a latência permaneceu inferior a 120 ms, o que é adequado para a interação proposta, dado que o aplicativo atualiza o estado da corrida em ciclos de aproximadamente um segundo. Desse modo, as medições de tempo confirmam que o sistema atende aos requisitos de sincronização entre o usuário, a horda e a interface do aplicativo móvel, demonstrando o bom desempenho da infraestrutura em nuvem adotada.
 
 \subsection{Teste de usabilidade}
 
@@ -80,6 +82,14 @@ No \textit{smartwatch}, foram avaliados o envio de dados biométricos ao celular
 \end{figure}
 
 Durante a fase inicial de validação técnica, uma das principais dificuldades esteve relacionada ao aprendizado da comunicação entre \textit{Wear OS} e o aplicativo móvel. Inicialmente, a comunicação entre o relógio e o celular foi realizada apenas por \textit{Wi-Fi}, o que limitou a execução de testes em campo. Para validar a troca inicial de informações, foi desenvolvido um aplicativo de teste cujo objetivo era verificar o estado de conexão, transmitir o número de batimentos por minuto captado pelo relógio por meio dos serviços de saúde do \textit{Wear OS} e enviar dados de localização.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{figuras/aplicativo_relogio.png}
+    \captionsetup{justification=centering}
+    \caption{Interface do aplicativo móvel conectado ao relógio via Bluetooth.}
+    \label{fig:aplicativo-relogio}
+\end{figure}
 
 Posteriormente, a estratégia de coleta de localização foi modificada. Como o relógio utilizado nos testes foi um \textit{Samsung Galaxy Watch 6} pareado ao celular, era necessário manter o \textit{smartphone} próximo ao \textit{smartwatch} durante a execução da atividade. Dessa forma, optou-se por centralizar a coleta de GPS no aplicativo móvel, solução que apresentou maior viabilidade para os testes em campo e melhor precisão no contexto da arquitetura proposta.
 
